@@ -1,0 +1,30 @@
+---
+- name: First Play
+  hosts: ubuntuOne
+
+  tasks:
+  - name: Ping
+    ansible.builtin.ping:
+  
+  - name: Create a file
+    ansible.builtin.shell:
+      touch /tmp/fileOne.txt 
+
+- name: Install nginx           
+  hosts: ubuntuTwo
+
+  tasks:
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+      update_cache: true
+      
+  - name: Start nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started 
+
+  - name: Copy index.html  
+    ansible.builtin.include_tasks:
+      include_file.yaml
